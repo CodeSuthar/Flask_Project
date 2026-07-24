@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Intake Tracker</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>💧 Water Intake Tracker</h1>
+
+        <p class="subtitle">
+            Track your daily water consumption and stay healthy.
+        </p>
+
+        <form action="/track" method="POST">
+
+            <div class="input-group">
+                <label>Your Name</label>
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    required>
+            </div>
+
+            <div class="input-group">
+                <label>Daily Goal (Glasses)</label>
+                <input
+                    type="number"
+                    name="goal"
+                    min="1"
+                    placeholder="Example: 8"
+                    required>
+            </div>
+
+            <div class="input-group">
+                <label>Glasses Drunk Today</label>
+                <input
+                    type="number"
+                    name="glasses"
+                    min="0"
+                    placeholder="Example: 5"
+                    required>
+            </div>
+
+            <button type="submit">
+                Check Progress
+            </button>
+
+        </form>
+
+        {% if name %}
+
+        <div class="result">
+
+            <h2>Hello, {{ name }} 👋</h2>
+
+            <div class="info">
+                <p><strong>Daily Goal:</strong> {{ goal }} Glasses</p>
+                <p><strong>Consumed:</strong> {{ glasses }} Glasses</p>
+                <p><strong>Remaining:</strong> {{ remaining }} Glasses</p>
+                <p><strong>Status:</strong> {{ status }}</p>
+            </div>
+
+            <div class="message">
+                {{ message }}
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
