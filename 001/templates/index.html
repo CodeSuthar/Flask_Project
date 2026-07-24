@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Electricity API</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="container">
+<div class="container">
+
+    <h1>⚡ Electricity Bill Calculator</h1>
+    <h3>Calculate Your Electricity Bill Instantly</h3>
+
+    <form action="/calculate" method="post">
+
+        <label for="units">Units Consumed</label>
+
+        <input
+            type="number"
+            id="units"
+            name="units"
+            placeholder="Enter units (e.g. 250)"
+            required
+        >
+
+        <button type="submit">Calculate Bill</button>
+
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h2>Bill Summary</h2>
+
+        <p><strong>Units Consumed:</strong> {{ result.units }}</p>
+
+        <p><strong>Electricity Bill:</strong> ₹{{ result.bill }}</p>
+
+        <p>{{ result.message }}</p>
+    </div>
+    {% endif %}
+
+</div>
+</body>
+</html>
