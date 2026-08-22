@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>BMI Calculator</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>⚖️ BMI Calculator</h1>
+
+        <p class="subtitle">
+            Calculate your Body Mass Index (BMI).
+        </p>
+
+
+        <form action="/calculate" method="POST">
+
+
+            <div class="input-group">
+
+                <label>Your Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Weight (kg)</label>
+
+                <input
+                    type="number"
+                    name="weight"
+                    step="0.1"
+                    min="1"
+                    placeholder="Example: 60"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Height (meters)</label>
+
+                <input
+                    type="number"
+                    name="height"
+                    step="0.01"
+                    min="0.1"
+                    placeholder="Example: 1.70"
+                    required>
+
+            </div>
+
+
+            <button type="submit">
+                Calculate BMI
+            </button>
+
+        </form>
+
+
+        {% if name %}
+
+        <div class="result">
+
+            <h2>Hello, {{ name }} 👋</h2>
+
+            <div class="info">
+
+                <p>
+                    <strong>Weight:</strong>
+                    {{ weight }} kg
+                </p>
+
+                <p>
+                    <strong>Height:</strong>
+                    {{ height }} m
+                </p>
+
+                <p>
+                    <strong>Your BMI:</strong>
+                    {{ bmi }}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    {{ status }}
+                </p>
+
+            </div>
+
+
+            <div class="message">
+
+                {{ message }}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

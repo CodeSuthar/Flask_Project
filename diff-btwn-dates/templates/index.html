@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Date Difference Calculator</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>📅 Date Difference Calculator</h1>
+
+        <p class="subtitle">
+            Calculate the difference between two dates.
+        </p>
+
+
+        <form action="/calculate" method="POST">
+
+
+            <div class="input-group">
+
+                <label>First Date</label>
+
+                <input
+                    type="date"
+                    name="date1"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Second Date</label>
+
+                <input
+                    type="date"
+                    name="date2"
+                    required>
+
+            </div>
+
+
+            <button type="submit">
+                Calculate Difference
+            </button>
+
+        </form>
+
+
+        {% if difference is defined %}
+
+        <div class="result">
+
+            <h2>📆 Result</h2>
+
+            <div class="info">
+
+                <p>
+                    <strong>First Date:</strong>
+                    {{ date1 }}
+                </p>
+
+                <p>
+                    <strong>Second Date:</strong>
+                    {{ date2 }}
+                </p>
+
+                <p>
+                    <strong>Difference:</strong>
+                    {{ difference }} Days
+                </p>
+
+            </div>
+
+
+            <div class="message">
+
+                {{ message }}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

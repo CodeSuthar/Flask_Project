@@ -1,5 +1,5 @@
 def main():
-    print("Hello from water-intake-tracker!")
+    print("Hello from authentication!")
 
 
 if __name__ == "__main__":
