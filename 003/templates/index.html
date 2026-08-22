@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Location Finder</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <h1>📍 Location Finder</h1>
+
+        <p class="subtitle">
+            Enter a location to find its latitude and longitude.
+        </p>
+
+        <form action="/getlocation" method="POST">
+
+            <div class="input-group">
+                <label>Enter Location</label>
+
+                <input
+                    type="text"
+                    name="location"
+                    placeholder="Example: London, New York, Paris"
+                    required>
+            </div>
+
+            <button type="submit">
+                Find Location
+            </button>
+
+        </form>
+
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if latitude is defined and longitude is defined %}
+
+        <div class="result">
+
+            <h2>📌 Location Details</h2>
+
+            <div class="info">
+                <p><strong>Location:</strong> {{ location }}</p>
+                <p><strong>Latitude:</strong> {{ latitude }}</p>
+                <p><strong>Longitude:</strong> {{ longitude }}</p>
+            </div>
+
+            <div class="message">
+                Location found successfully!
+            </div>
+
+        </div>
+
+
+        <!-- Map container -->
+        <div id="map"></div>
+
+
+        <!-- Leaflet JavaScript -->
+        <script
+            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+        </script>
+
+
+        <!-- Your map script MUST come after Leaflet -->
+        <script>
+
+            console.log("Leaflet loaded:", typeof L);
+
+            const latitudeED = {{ latitude | tojson }};
+            const longitudeED = {{ longitude | tojson }};
+            const locationNameED = {{ location | tojson }};
+
+            console.log("Latitude:", latitudeED);
+            console.log("Longitude:", longitudeED);
+
+            const map = L.map("map").setView(
+                [latitudeED, longitudeED],
+                13
+            );
+
+
+            L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+                    maxZoom: 19,
+                    attribution: "&copy; OpenStreetMap contributors"
+                }
+            ).addTo(map);
+
+
+            L.marker([latitudeED, longitudeED])
+                .addTo(map)
+                .bindPopup(
+                    "<b>" + locationNameED + "</b><br>" +
+                    "Latitude: " + latitudeED + "<br>" +
+                    "Longitude: " + longitudeED
+                )
+                .openPopup();
+
+        </script>
+
+        {% endif %}
+
+    </div>
+</div>
+
+</body>
+</html>
