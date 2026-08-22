@@ -1,55 +1,97 @@
-from flask import Flask, render_template, request
-import requests
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
+app.secret_key = "your_secret_key_here"
+users_storage = {}
 
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    if "email" in session:
+        return redirect(url_for("dashboard"))
+
+    return redirect(url_for("login"))
 
 
-@app.route("/getlocation", methods=["POST"])
-def get_location():
-    location = request.form["location"].strip()
+@app.route("/dashboard")
+def dashboard():
+    if "email" not in session:
+        return redirect(url_for("login"))
 
-    if not location:
-        return render_template("index.html", error="Please enter a location.")
+    email = session["email"]
+    user = users_storage.get(email)
 
-    try:
-        # Encode location
-        encoded_location = requests.utils.quote(location)
+    if not user:
+        session.clear()
+        return redirect(url_for("login"))
 
-        url = f"https://photon.komoot.io/api/?q={encoded_location}&limit=1"
-        headers = {
-            "User-Agent": "MyGeocodingApp/1.0 (your.email@example.com)"
-        }
+    return render_template(
+        "welcome.html",
+        name=user["name"],
+        email=email,
+        msg="Logged in successfully."
+    )
 
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
 
-        data = response.json()
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if "email" in session:
+        return redirect(url_for("dashboard"))
 
-        if not data["features"]:
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        if email in users_storage and users_storage[email]["password"] == password:
+            session["email"] = email
+            return redirect(url_for("dashboard"))
+
+        return render_template(
+            "login.html",
+            error="Invalid email or password."
+        )
+
+    return render_template("login.html")
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if "email" in session:
+        return redirect(url_for("dashboard"))
+
+    if request.method == "POST":
+        full_name = request.form.get("name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm-password")
+
+        if password != confirm_password:
             return render_template(
-                "index.html",
-                error="Location not found. Please try again."
+                "register.html",
+                error="Passwords do not match."
             )
 
-        lon, lat = data["features"][0]["geometry"]["coordinates"]
+        if email in users_storage:
+            return render_template(
+                "register.html",
+                error="Email already exists."
+            )
 
-        return render_template(
-            "index.html",
-            location=location,
-            latitude=lat,
-            longitude=lon,
-        )
+        users_storage[email] = {
+            "name": full_name,
+            "password": password
+        }
 
-    except requests.exceptions.RequestException as e:
-        return render_template(
-            "index.html",
-            error=f"An error occurred: {e}"
-        )
+        session["email"] = email
+        return redirect(url_for("dashboard"))
+
+    return render_template("register.html")
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 
 
 if __name__ == "__main__":
