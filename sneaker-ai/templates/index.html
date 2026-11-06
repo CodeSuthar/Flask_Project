@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SNEAKER SI — Sneaker Design Studio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg2: #111118;
+      --bg3: #18181f;
+      --border: rgba(255, 255, 255, 0.08);
+      --border2: rgba(255, 255, 255, 0.16);
+
+      --text: #f0f0f0;
+      --text2: #9898a8;
+      --text3: #60606a;
+
+      --gold: #e2b714;
+      --gold-dim: #9a7c0d;
+      --red: #e84040;
+      --green: #3ecf8e;
+
+      --radius: 8px;
+      --radius-lg: 16px;
+      --trans: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+      --upper-color: #00c3ff;
+      --panel-color: #0096dc;
+      --toe-color: #00aaf0;
+      --accent-color: #ebc9a0;
+      --lace-color: #faebc8;
+      --midsole-color: #faebc8;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Barlow', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    .hidden { display: none !important; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 0 3rem;
+      height: 64px;
+      background: rgba(11, 11, 15, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .logo-slash { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+      flex: 1;
+    }
+    .nav-link {
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text2);
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--radius);
+      transition: color var(--trans), background var(--trans);
+    }
+    .nav-link:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
+    .nav-link.active { color: var(--gold); background: rgba(226, 183, 20, 0.08); }
+
+    .nav-cta {
+      margin-left: auto;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: #0b0b0f;
+      padding: 0.55rem 1.25rem;
+      border-radius: var(--radius);
+      transition: opacity var(--trans), transform var(--trans);
+    }
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    main { flex: 1; position: relative; }
+    .page-view { display: none; }
+    .page-view.active-view {
+      display: block;
+      animation: viewIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes viewIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--gold);
+      color: #0b0b0f;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.8rem;
+      border-radius: var(--radius);
+      transition: opacity var(--trans), transform var(--trans), box-shadow var(--trans);
+    }
+    .btn-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(226, 183, 20, 0.2);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.8rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border2);
+      transition: color var(--trans), border-color var(--trans), background var(--trans);
+    }
+    .btn-ghost:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .btn-ghost-sm {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text2);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border2);
+      transition: color var(--trans), border-color var(--trans);
+    }
+    .btn-ghost-sm:hover { color: var(--gold); border-color: var(--gold-dim); }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      min-height: calc(100vh - 64px);
+      padding: 4rem 3rem 4rem 6rem;
+      overflow: hidden;
+      gap: 3rem;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .hero-glow {
+      position: absolute;
+      top: -20%;
+      right: 5%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(226, 183, 20, 0.09) 0%, transparent 68%);
+      filter: blur(60px);
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(226, 183, 20, 0.2);
+      padding: 0.35rem 0.8rem;
+      border-radius: 50px;
+      background: rgba(226, 183, 20, 0.03);
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 2.2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8.5vw, 7.5rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .title-accent { color: var(--gold); }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text2);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 2.8rem;
+      font-weight: 300;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .sneaker-float {
+      animation: float 6.5s ease-in-out infinite;
+      filter: drop-shadow(0 28px 45px rgba(226, 183, 20, 0.15));
+      width: 100%;
+      max-width: 520px;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-18px) rotate(0.5deg); }
+    }
+
+    .visual-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text3);
+      border: 1px solid var(--border2);
+      padding: 0.35rem 0.85rem;
+      border-radius: 2rem;
+      background: var(--bg2);
+    }
+
+    .features {
+      padding: 6rem 6rem;
+      border-top: 1px solid var(--border);
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      letter-spacing: 0.04em;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .feature-card {
+      padding: 2.5rem 2rem;
+      background: var(--bg2);
+      transition: background var(--trans);
+    }
+    .feature-card:hover { background: var(--bg3); }
+    .feature-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.2rem;
+      color: var(--gold);
+      opacity: 0.35;
+      line-height: 1;
+      margin-bottom: 1.25rem;
+    }
+    .feature-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.6rem;
+    }
+    .feature-desc {
+      font-size: 0.88rem;
+      color: var(--text2);
+      line-height: 1.55;
+    }
+
+    .stats {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 6rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0 4rem;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.2rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.74rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+    .stat-divider { width: 1px; height: 50px; background: var(--border); }
+
+    .studio-page {
+      display: grid;
+      grid-template-columns: 440px 1fr;
+      min-height: calc(100vh - 64px);
+    }
+
+    .form-panel {
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: calc(100vh - 64px);
+      position: sticky;
+      top: 64px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border2) transparent;
+    }
+    .panel-header {
+      padding: 2rem 2.2rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .panel-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.04em;
+    }
+    .panel-sub { font-size: 0.85rem; color: var(--text2); margin-top: 0.2rem; }
+
+    .form-body {
+      padding: 1.8rem 2.2rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 0.65rem; }
+    .form-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      color: var(--text3);
+      text-transform: uppercase;
+    }
+
+    .chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chip {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 0.42rem 0.95rem;
+      border-radius: 2rem;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      background: transparent;
+      transition: all var(--trans);
+    }
+    .chip:hover { border-color: var(--gold-dim); color: var(--text); background: rgba(226, 183, 20, 0.06); }
+    .chip.active { background: var(--gold); color: #0b0b0f; border-color: var(--gold); font-weight: 700; }
+
+    .form-group--colors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .color-col { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+    .color-input-wrap { display: flex; gap: 0.5rem; align-items: center; }
+    .color-swatch {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border2);
+      cursor: pointer;
+      background: none;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .color-hex {
+      flex: 1;
+      min-width: 0;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.65rem 0.75rem;
+      outline: none;
+      transition: border-color var(--trans);
+    }
+    .color-hex:focus { border-color: var(--gold); }
+
+    .form-textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem;
+      padding: 0.8rem 1rem;
+      resize: vertical;
+      min-height: 90px;
+      outline: none;
+      transition: border-color var(--trans);
+      line-height: 1.5;
+    }
+    .form-textarea:focus { border-color: var(--gold); }
+    .form-textarea::placeholder { color: var(--text3); }
+
+    .btn-generate {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 1rem;
+      background: var(--gold);
+      color: #0b0b0f;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.1em;
+      border-radius: var(--radius);
+      transition: opacity var(--trans), transform var(--trans), box-shadow var(--trans);
+      margin-top: 0.5rem;
+    }
+    .btn-generate:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(226, 183, 20, 0.25);
+    }
+
+    .output-panel {
+      padding: 3rem 4rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+    }
+
+    .empty-state {
+      margin: auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      max-width: 380px;
+      padding: 2rem;
+    }
+    .empty-icon svg { opacity: 0.25; }
+    .empty-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--text2);
+      letter-spacing: 0.04em;
+    }
+    .empty-sub { font-size: 0.92rem; color: var(--text3); line-height: 1.6; }
+    .empty-pipeline {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding: 0.8rem 1.4rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg2);
+    }
+    .pipeline-step {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--text2);
+    }
+    .pipeline-arrow { color: var(--gold); }
+
+    .loading-state {
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.6rem;
+    }
+    .loader-ring {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 3px solid var(--border);
+      border-top-color: var(--gold);
+      animation: spin 0.85s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      color: var(--text2);
+    }
+
+    .loader-stage {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .stage-pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      border: 1px solid var(--border2);
+      color: var(--text3);
+    }
+    .stage-pill--active {
+      color: #0b0b0f;
+      background: var(--gold);
+      border-color: var(--gold);
+      font-weight: 700;
+    }
+
+    .result {
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+      animation: viewIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .result-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .result-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .result-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 5vw, 4.2rem);
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      margin-bottom: 0.5rem;
+    }
+    .result-tagline { font-size: 1.05rem; color: var(--text2); font-style: italic; }
+    .result-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+    .meta-pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.76rem;
+      background: var(--gold);
+      color: #0b0b0f;
+      font-weight: 700;
+      padding: 0.35rem 0.9rem;
+      border-radius: 2rem;
+      white-space: nowrap;
+    }
+    .meta-pill--light {
+      background: var(--bg3);
+      color: var(--text2);
+      border: 1px solid var(--border2);
+      font-weight: 400;
+    }
+
+    .visual-section {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+    .visual-section-label {
+      padding: 0.75rem 1.4rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text3);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+    }
+    .colorway-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      overflow-x: auto;
+    }
+    .cw-tab {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text2);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all var(--trans);
+    }
+    .cw-tab:hover { color: var(--text); background: rgba(255, 255, 255, 0.02); }
+    .cw-tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+      background: rgba(226, 183, 20, 0.05);
+    }
+    .cw-swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+
+    .sneaker-stage {
+      padding: 3.5rem 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
+    }
+    .sneaker-stage .sneaker-svg {
+      width: 100%;
+      max-width: 540px;
+      transition: transform 0.4s var(--trans);
+      filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.5));
+    }
+    .sneaker-stage:hover .sneaker-svg {
+      transform: scale(1.02) rotate(-1deg);
+    }
+
+    .colorway-info {
+      padding: 1.1rem 1.6rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      align-items: center;
+      background: var(--bg2);
+    }
+    .cw-color-item {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.74rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--text2);
+    }
+    .cw-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .result-desc {
+      font-size: 1.05rem;
+      color: var(--text2);
+      line-height: 1.65;
+      padding: 1.6rem 2rem;
+      background: var(--bg2);
+      border-radius: var(--radius);
+      border-left: 3px solid var(--gold);
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .detail-card {
+      background: var(--bg2);
+      padding: 1.6rem;
+    }
+    .detail-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 0.95rem;
+    }
+    .detail-list li {
+      font-size: 0.85rem;
+      color: var(--text2);
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .detail-list li::before {
+      content: '—';
+      color: var(--gold);
+      font-size: 0.7rem;
+    }
+    .detail-text { font-size: 0.88rem; color: var(--text2); line-height: 1.55; }
+
+    .result-actions { display: flex; align-items: center; gap: 1rem; }
+    .btn-save-concept {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.4rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      background: rgba(226, 183, 20, 0.05);
+      transition: all var(--trans);
+    }
+    .btn-save-concept:hover {
+      background: var(--gold);
+      color: #0b0b0f;
+    }
+
+    .history-page {
+      padding: 3.5rem 5rem;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .history-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      gap: 1.5rem;
+    }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.4rem;
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+    }
+    .page-sub { font-size: 0.9rem; color: var(--text2); margin-top: 0.4rem; }
+
+    .btn-clear {
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(232, 64, 64, 0.4);
+      border-radius: var(--radius);
+      color: var(--red);
+      background: transparent;
+      transition: all var(--trans);
+    }
+    .btn-clear:hover { background: rgba(232, 64, 64, 0.1); }
+
+    .history-empty {
+      text-align: center;
+      padding: 7rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .empty-icon-lg { font-size: 4.5rem; opacity: 0.3; }
+    .history-empty h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--text2); }
+    .history-empty p { font-size: 0.92rem; color: var(--text3); }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.8rem;
+    }
+    .history-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color var(--trans), transform var(--trans);
+      display: flex;
+      flex-direction: column;
+    }
+    .history-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-3px);
+    }
+    .card-visual {
+      background: var(--bg3);
+      padding: 2rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-visual .sneaker-svg { width: 100%; max-width: 280px; }
+
+    .card-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; flex: 1; }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-id {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+    .card-time { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text3); }
+    .card-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.04em; }
+    .card-tagline { font-size: 0.85rem; color: var(--text2); font-style: italic; }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 2rem;
+      background: var(--bg3);
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+    .tag--price { background: rgba(226, 183, 20, 0.12); color: var(--gold); border-color: var(--gold-dim); }
+
+    .card-colorways { display: flex; gap: 0.8rem; align-items: center; }
+    .swatch-group { display: flex; gap: 2px; }
+    .swatch { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(255, 255, 255, 0.1); }
+
+    .card-prefs { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.5rem; }
+    .pref-pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text3);
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 3rem;
+      background: var(--bg);
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; }
+    .footer-copy { font-size: 0.8rem; color: var(--text2); flex: 1; }
+
+    @media (max-width: 1100px) {
+      .hero { padding: 3rem 2.5rem; grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .studio-page { grid-template-columns: 360px 1fr; }
+      .features { padding: 4rem 2.5rem; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .details-grid { grid-template-columns: 1fr; }
+      .history-page { padding: 2.5rem 2rem; }
+      .stats { padding: 3rem 2rem; flex-wrap: wrap; gap: 2rem; }
+      .stat-divider { display: none; }
+    }
+
+    @media (max-width: 860px) {
+      .nav { padding: 0 1.5rem; }
+      .studio-page { grid-template-columns: 1fr; }
+      .form-panel { position: static; max-height: none; border-right: none; border-bottom: 1px solid var(--border); }
+      .output-panel { padding: 2.5rem 1.5rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .history-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── hCaptcha Container ── */
+    .hcaptcha-group {
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .hcaptcha-group .h-captcha {
+      max-width: 100%;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="#home" class="nav-logo" onclick="navigate('home')">
+      SNEAKER<span class="logo-slash">/</span>SI
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home" class="nav-link active" id="nav-home" onclick="navigate('home')">Home</a></li>
+      <li><a href="#studio" class="nav-link" id="nav-studio" onclick="navigate('studio')">Studio</a></li>
+      <li><a href="#history" class="nav-link" id="nav-history" onclick="navigate('history')">History</a></li>
+    </ul>
+    <a href="#studio" class="nav-cta" onclick="navigate('studio')">Design Now →</a>
+  </nav>
+
+  <main>
+    <div id="view-home" class="page-view active-view">
+      <section class="hero">
+        <div class="hero-bg">
+          <div class="hero-grid"></div>
+          <div class="hero-glow"></div>
+        </div>
+
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span class="dot"></span>
+            Sneaker SI Design System
+          </div>
+          <h1 class="hero-title">
+            Design Your<br />
+            <span class="title-accent">Perfect</span><br />
+            Sneaker
+          </h1>
+          <p class="hero-sub">
+            Describe silhouette preferences, materials, and thematic palettes. Our studio generates a complete bespoke footwear profile with interactive vector layers in seconds.
+          </p>
+          <div class="hero-actions">
+            <a href="#studio" class="btn-primary" onclick="navigate('studio')">Start Designing ⚡</a>
+            <a href="#history" class="btn-ghost" onclick="navigate('history')">View Archive →</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="sneaker-float" id="heroSneaker">
+            <svg class="sneaker-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive Sneaker Component">
+              <path fill="var(--upper-color, #00C3FF)" d="M26.484,324.045c-15.172,0-27.244-12.723-26.446-27.874L7.788,172.87c0.585-9.302,8.3-16.547,17.62-16.547h9.902c4.875,0,8.828,3.953,8.828,8.828v4.93c0,7.599,4.863,14.346,12.072,16.749l51.849,17.283c9.516,3.172,20.008,0.695,27.101-6.398l46.122-46.122c7.766-7.766,19.463-9.957,29.486-5.472c45.657,20.434,173.159,76.683,221.784,89.649c14.649,3.906,28.327,6.193,40.063,7.502c22.415,2.503,39.385,21.31,39.385,43.864v19.253l-52.965,35.31L35.31,324.045H26.484z"/>
+              <polygon fill="var(--lace-color, #FAEBC8)" points="350.833,228.045 237.213,296.112 186.689,286.711 288.301,225.838"/>
+              <polygon fill="var(--accent-color, #EBC9A0)" points="231.772,216.459 130.16,277.332 186.689,286.711 288.301,225.838"/>
+              <path fill="var(--panel-color, #0096DC)" d="M143.422,275.96l78.51-47.492c5.519-3.307,12.053-4.514,18.385-3.361c30.355,5.528,121.847,22.537,153.681-2.143c-58.997-21.772-146.93-60.597-183.232-76.843c-10.024-4.487-21.72-2.294-29.486,5.471l-46.122,46.122c-7.093,7.093-17.585,9.569-27.101,6.398l-51.849-17.283c-7.21-2.403-12.072-9.15-12.072-16.749v-4.93c0-4.875-3.953-8.828-8.828-8.828h-9.902c-9.321,0-17.035,7.245-17.621,16.547L1.307,275.96H143.422z"/>
+              <path fill="var(--toe-color, #00AAF0)" d="M68.49,325.428l293.442,12.226v-37.657c-130.587-10.045-291.31-40.181-291.31-40.181L68.49,325.428z"/>
+              <path fill="var(--panel-color, #0096DC)" d="M495.351,252.699c-20.077,7.486-60.371,20.168-116.299,26.336c-5.366,0.591-10.483,2.764-14.567,6.297l-55.521,47.54l150.069,8.828l52.965-35.31v-19.254C512,273.247,505.531,260.813,495.351,252.699z"/>
+              <g fill="var(--accent-color, #EBC9A0)">
+                <path d="M217.104,179.218c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.31-3.591,8.905-3.815,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C221.862,178.261,219.483,179.218,217.104,179.218z"/>
+                <path d="M247.879,191.967c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.302-3.591,8.914-3.815,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C252.638,191.01,250.259,191.967,247.879,191.967z"/>
+                <path d="M278.655,204.717c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.319-3.591,8.914-3.81,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C283.413,203.761,281.034,204.717,278.655,204.717z"/>
+                <path d="M309.423,217.472c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.31-3.586,8.905-3.806,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C314.181,216.514,311.802,217.472,309.423,217.472z"/>
+                <path d="M114.759,324.045l-29.946-53.903c-9.161-16.49-23.891-29.183-41.554-35.806L4.83,219.925L0.037,296.17c-0.798,15.151,11.273,27.875,26.446,27.875L114.759,324.045z"/>
+              </g>
+              <path fill="var(--midsole-color, #FAEBC8)" d="M335.449,332.873c-79.448,0-132.414-8.828-211.862-8.828l-113.304-5.517v40.827c0,4.875,3.953,8.828,8.828,8.828h289.855c86.721,0,155.693-17.749,177.857-24.185c4.748-1.379,8.698-4.65,10.91-9.073L512,306.391C512,306.39,432.552,332.873,335.449,332.873z"/>
+            </svg>
+          </div>
+          <span class="visual-label">Dynamic SVG Render Engine</span>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="section-header">
+          <h2 class="section-title">Workflow Architecture</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-num">01</div>
+            <h3 class="feature-title">Parametric Brief</h3>
+            <p class="feature-desc">Configure target performance silhouettes, core textiles, intended wear profiles, and baseline accent anchors.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-num">02</div>
+            <h3 class="feature-title">Concept Engine</h3>
+            <p class="feature-desc">Generates complete design identity, performance metrics, structural sole systems, and market positioning.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-num">03</div>
+            <h3 class="feature-title">Tri-Colorway Mapping</h3>
+            <p class="feature-desc">Produces three balanced complementary chromatic variants for panel uppers, overlays, and soles.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-num">04</div>
+            <h3 class="feature-title">Session Persistence</h3>
+            <p class="feature-desc">Store generated mockups into an archive to compare colorways, silhouette ergonomics, and design lineages.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats">
+        <div class="stat-item">
+          <span class="stat-num">3</span>
+          <span class="stat-label">Colorways / Concept</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">&lt;1s</span>
+          <span class="stat-label">Engine Latency</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">SVG</span>
+          <span class="stat-label">Vector Precision</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Combinations</span>
+        </div>
+      </section>
+    </div>
+
+    <div id="view-studio" class="page-view">
+      <div class="studio-page">
+        <aside class="form-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Design Studio</h2>
+            <p class="panel-sub">Fine-tune silhouette parameters &amp; aesthetic anchors.</p>
+          </div>
+
+          <form class="form-body" id="designForm" onsubmit="event.preventDefault(); generateConcept();">
+            <div class="form-group">
+              <label class="form-label">Silhouette Structure</label>
+              <div class="chip-group" data-field="style">
+                <button type="button" class="chip active" data-val="casual">Casual</button>
+                <button type="button" class="chip" data-val="athletic">Athletic</button>
+                <button type="button" class="chip" data-val="luxury">Luxury</button>
+                <button type="button" class="chip" data-val="retro">Retro</button>
+                <button type="button" class="chip" data-val="futuristic">Futuristic</button>
+                <button type="button" class="chip" data-val="streetwear">Streetwear</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Primary Material</label>
+              <div class="chip-group" data-field="material">
+                <button type="button" class="chip active" data-val="leather">Leather</button>
+                <button type="button" class="chip" data-val="canvas">Canvas</button>
+                <button type="button" class="chip" data-val="ripstop mesh">Mesh</button>
+                <button type="button" class="chip" data-val="suede">Suede</button>
+                <button type="button" class="chip" data-val="engineered knit">Knit</button>
+                <button type="button" class="chip" data-val="recycled polymer">Recycled</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Occasion Profile</label>
+              <div class="chip-group" data-field="occasion">
+                <button type="button" class="chip active" data-val="everyday">Everyday</button>
+                <button type="button" class="chip" data-val="performance running">Running</button>
+                <button type="button" class="chip" data-val="court basketball">Basketball</button>
+                <button type="button" class="chip" data-val="trail & hiking">Hiking</button>
+                <button type="button" class="chip" data-val="limited runway">Limited Ed.</button>
+              </div>
+            </div>
+
+            <div class="form-group form-group--colors">
+              <div class="color-col">
+                <label class="form-label" for="primary_color">Primary Tint</label>
+                <div class="color-input-wrap">
+                  <input type="color" id="primary_color" value="#00C3FF" class="color-swatch" oninput="syncColorInput('primary', this.value)" />
+                  <input type="text" id="primary_color_text" value="#00C3FF" class="color-hex" maxlength="7" oninput="syncColorInput('primary', this.value)" />
+                </div>
+              </div>
+              <div class="color-col">
+                <label class="form-label" for="accent_color">Accent Highlight</label>
+                <div class="color-input-wrap">
+                  <input type="color" id="accent_color" value="#EBC9A0" class="color-swatch" oninput="syncColorInput('accent', this.value)" />
+                  <input type="text" id="accent_color_text" value="#EBC9A0" class="color-hex" maxlength="7" oninput="syncColorInput('accent', this.value)" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="inspiration">Aesthetic Motif / Narrative</label>
+              <textarea id="inspiration" class="form-textarea" placeholder="e.g. Neon brutalism, cyberpunk Tokyo, vintage tennis clay court, alpine technical..."></textarea>
+            </div>
+
+            {% if hcaptcha_site_key %}
+            <div class="form-group hcaptcha-group">
+              <label class="form-label">Human Verification</label>
+              <div class="h-captcha" data-sitekey="{{ hcaptcha_site_key }}" data-theme="dark" id="hcaptchaWidget"></div>
+            </div>
+            {% endif %}
+
+            <button type="submit" class="btn-generate" id="generateBtn">
+              <span>Synthesize Concept</span>
+              <span>⚡</span>
+            </button>
+          </form>
+        </aside>
+
+        <section class="output-panel" id="outputPanel">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon">
+              <svg viewBox="0 0 80 80" width="80" height="80">
+                <circle cx="40" cy="40" r="38" stroke="var(--border)" fill="none" stroke-width="1.5" stroke-dasharray="6 4"/>
+                <text x="40" y="47" text-anchor="middle" font-size="28">👟</text>
+              </svg>
+            </div>
+            <h3 class="empty-title">Awaiting Concept</h3>
+            <p class="empty-sub">Adjust the parametric design brief on the left panel and click <strong>Synthesize Concept</strong>.</p>
+            <div class="empty-pipeline">
+              <span class="pipeline-step">Brief Setup</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-step">Color Matrix</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-step">Dynamic SVG</span>
+            </div>
+          </div>
+
+          <div class="loading-state hidden" id="loadingState">
+            <div class="loader-ring"></div>
+            <p class="loader-text">Synthesizing design architecture…</p>
+            <div class="loader-stage">
+              <span class="stage-pill stage-pill--active">Colorway Calculus</span>
+              <span style="color:var(--text3)">→</span>
+              <span class="stage-pill stage-pill--active">Vector Mapping</span>
+            </div>
+          </div>
+
+          <div class="result hidden" id="result">
+            <div class="result-header">
+              <div>
+                <p class="result-eyebrow" id="resultTags">LIFESTYLE / ARCHIVE</p>
+                <h2 class="result-name" id="resultName">AERO PHANTOM LOW</h2>
+                <p class="result-tagline" id="resultTagline">Forged for urban traversal and atmospheric aerodynamics.</p>
+              </div>
+              <div class="result-meta">
+                <span class="meta-pill" id="resultPrice">$210 USD</span>
+                <span class="meta-pill meta-pill--light" id="resultAudience">Unisex Performance</span>
+              </div>
+            </div>
+
+            <div class="visual-section">
+              <div class="visual-section-label">Interactive Colorway Explorer</div>
+              <div class="colorway-tabs" id="colorwayTabs"></div>
+
+              <div class="sneaker-stage" id="studioSneakerStage">
+                <svg class="sneaker-svg" viewBox="0 0 512 512" role="img" aria-label="Engine Render">
+                  <path fill="var(--upper-color)" d="M26.484,324.045c-15.172,0-27.244-12.723-26.446-27.874L7.788,172.87c0.585-9.302,8.3-16.547,17.62-16.547h9.902c4.875,0,8.828,3.953,8.828,8.828v4.93c0,7.599,4.863,14.346,12.072,16.749l51.849,17.283c9.516,3.172,20.008,0.695,27.101-6.398l46.122-46.122c7.766-7.766,19.463-9.957,29.486-5.472c45.657,20.434,173.159,76.683,221.784,89.649c14.649,3.906,28.327,6.193,40.063,7.502c22.415,2.503,39.385,21.31,39.385,43.864v19.253l-52.965,35.31L35.31,324.045H26.484z"/>
+                  <polygon fill="var(--lace-color)" points="350.833,228.045 237.213,296.112 186.689,286.711 288.301,225.838"/>
+                  <polygon fill="var(--accent-color)" points="231.772,216.459 130.16,277.332 186.689,286.711 288.301,225.838"/>
+                  <path fill="var(--panel-color)" d="M143.422,275.96l78.51-47.492c5.519-3.307,12.053-4.514,18.385-3.361c30.355,5.528,121.847,22.537,153.681-2.143c-58.997-21.772-146.93-60.597-183.232-76.843c-10.024-4.487-21.72-2.294-29.486,5.471l-46.122,46.122c-7.093,7.093-17.585,9.569-27.101,6.398l-51.849-17.283c-7.21-2.403-12.072-9.15-12.072-16.749v-4.93c0-4.875-3.953-8.828-8.828-8.828h-9.902c-9.321,0-17.035,7.245-17.621,16.547L1.307,275.96H143.422z"/>
+                  <path fill="var(--toe-color)" d="M68.49,325.428l293.442,12.226v-37.657c-130.587-10.045-291.31-40.181-291.31-40.181L68.49,325.428z"/>
+                  <path fill="var(--panel-color)" d="M495.351,252.699c-20.077,7.486-60.371,20.168-116.299,26.336c-5.366,0.591-10.483,2.764-14.567,6.297l-55.521,47.54l150.069,8.828l52.965-35.31v-19.254C512,273.247,505.531,260.813,495.351,252.699z"/>
+                  <g fill="var(--accent-color)">
+                    <path d="M217.104,179.218c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.31-3.591,8.905-3.815,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C221.862,178.261,219.483,179.218,217.104,179.218z"/>
+                    <path d="M247.879,191.967c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.302-3.591,8.914-3.815,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C252.638,191.01,250.259,191.967,247.879,191.967z"/>
+                    <path d="M278.655,204.717c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.319-3.591,8.914-3.81,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C283.413,203.761,281.034,204.717,278.655,204.717z"/>
+                    <path d="M309.423,217.472c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.31-3.586,8.905-3.806,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C314.181,216.514,311.802,217.472,309.423,217.472z"/>
+                    <path d="M114.759,324.045l-29.946-53.903c-9.161-16.49-23.891-29.183-41.554-35.806L4.83,219.925L0.037,296.17c-0.798,15.151,11.273,27.875,26.446,27.875L114.759,324.045z"/>
+                  </g>
+                  <path fill="var(--midsole-color)" d="M335.449,332.873c-79.448,0-132.414-8.828-211.862-8.828l-113.304-5.517v40.827c0,4.875,3.953,8.828,8.828,8.828h289.855c86.721,0,155.693-17.749,177.857-24.185c4.748-1.379,8.698-4.65,10.91-9.073L512,306.391C512,306.39,432.552,332.873,335.449,332.873z"/>
+                </svg>
+              </div>
+
+              <div class="colorway-info" id="colorwayInfo"></div>
+            </div>
+
+            <p class="result-desc" id="resultDesc"></p>
+
+            <div class="details-grid">
+              <div class="detail-card">
+                <h4 class="detail-title">Material Matrix</h4>
+                <ul class="detail-list" id="materialsList"></ul>
+              </div>
+              <div class="detail-card">
+                <h4 class="detail-title">Functional Features</h4>
+                <ul class="detail-list" id="featuresList"></ul>
+              </div>
+              <div class="detail-card">
+                <h4 class="detail-title">Sole Unit Geometry</h4>
+                <p class="detail-text" id="soleText"></p>
+              </div>
+            </div>
+
+            <div class="result-actions">
+              <button class="btn-save-concept" onclick="saveToArchive()">Save To Archive +</button>
+              <button class="btn-ghost-sm" onclick="generateConcept()">Regenerate Variation ↺</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div id="view-history" class="page-view">
+      <div class="history-page">
+        <div class="history-header">
+          <div>
+            <h1 class="page-title">Design History</h1>
+            <p class="page-sub">Locally cached concept iterations created across current design sessions.</p>
+          </div>
+          <button class="btn-clear" onclick="clearHistory()">Clear History ✕</button>
+        </div>
+
+        <div id="historyContainer"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">SNEAKER<span class="logo-slash">/</span>SI</span>
+      <span class="footer-copy">Procedural footwear design studio and colorway synthesization system.</span>
+    </div>
+  </footer>
+
+  <script>
+    const state = {
+      activeTab: 'home',
+      activeColorwayIndex: 0,
+      currentConcept: null,
+      history: []
+    };
+
+    function navigate(tabName) {
+      state.activeTab = tabName;
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active-view'));
+
+      const activeLink = document.getElementById(`nav-${tabName}`);
+      const activeView = document.getElementById(`view-${tabName}`);
+
+      if (activeLink) activeLink.classList.add('active');
+      if (activeView) activeView.classList.add('active-view');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (tabName === 'history') {
+        renderHistory();
+      }
+    }
+
+    document.querySelectorAll('.chip-group').forEach(group => {
+      group.addEventListener('click', e => {
+        const btn = e.target.closest('.chip');
+        if (!btn) return;
+        group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    function syncColorInput(type, hexVal) {
+      if (!/^#[0-9A-Fa-f]{6}$/.test(hexVal)) return;
+      if (type === 'primary') {
+        document.getElementById('primary_color').value = hexVal;
+        document.getElementById('primary_color_text').value = hexVal.toUpperCase();
+      } else {
+        document.getElementById('accent_color').value = hexVal;
+        document.getElementById('accent_color_text').value = hexVal.toUpperCase();
+      }
+    }
+
+    function adjustHex(hex, percent) {
+      let num = parseInt(hex.replace("#", ""), 16),
+        amt = Math.round(2.55 * percent),
+        R = (num >> 16) + amt,
+        B = (num >> 8 & 0x00FF) + amt,
+        G = (num & 0x0000FF) + amt;
+      return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (B<255?B<1?0:B:255)*0x100 + (G<255?G<1?0:G:255)).toString(16).slice(1);
+    }
+
+    function invertHex(hex) {
+      let num = (0xFFFFFF ^ parseInt(hex.replace("#", ""), 16)).toString(16);
+      return "#" + "0".repeat(6 - num.length) + num;
+    }
+
+    const namingLexicon = {
+      prefix: ["AERO", "TERRA", "VORTEX", "NEXUS", "KINETIC", "CHRONO", "ECHO", "SOLAR", "APEX", "STRATA"],
+      suffix: ["RUNNER", "LOW", "DRIFT", "STRYKE", "MATRIX", "PHANTOM", "ZERO", "MODULE", "LAB", "VISION"]
+    };
+
+    async function generateConcept() {
+      const form = document.getElementById('designForm');
+      const emptyState = document.getElementById('emptyState');
+      const loadingState = document.getElementById('loadingState');
+      const resultArea = document.getElementById('result');
+      const btn = document.getElementById('generateBtn');
+
+      const styleEl = form.querySelector('[data-field="style"] .chip.active');
+      const materialEl = form.querySelector('[data-field="material"] .chip.active');
+      const occasionEl = form.querySelector('[data-field="occasion"] .chip.active');
+
+      const prefs = {
+        style: styleEl ? (styleEl.dataset.val || styleEl.dataset.value) : 'casual',
+        material: materialEl ? (materialEl.dataset.val || materialEl.dataset.value) : 'leather',
+        occasion: occasionEl ? (occasionEl.dataset.val || occasionEl.dataset.value) : 'everyday',
+        primary_color: document.getElementById('primary_color').value,
+        accent_color: document.getElementById('accent_color').value,
+        inspiration: document.getElementById('inspiration').value.trim()
+      };
+
+      // Verify hCaptcha if configured
+      let hcaptchaToken = '';
+      if (typeof hcaptcha !== 'undefined') {
+        hcaptchaToken = hcaptcha.getResponse();
+      }
+      const siteKey = "{{ hcaptcha_site_key }}";
+      if (siteKey && siteKey.trim() !== '' && !hcaptchaToken) {
+        alert('Please complete the hCaptcha verification challenge before synthesizing.');
+        return;
+      }
+
+      if (btn) btn.disabled = true;
+      emptyState.classList.add('hidden');
+      resultArea.classList.add('hidden');
+      loadingState.classList.remove('hidden');
+
+      try {
+        const response = await fetch('/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...prefs,
+            hcaptcha_response: hcaptchaToken
+          })
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || 'Concept generation failed');
+        }
+
+        const c = data.concept;
+        const colorways = (c.colorways || []).map(cw => ({
+          name: cw.name || 'Signature',
+          upper: cw.upper || prefs.primary_color,
+          panel: cw.panel || cw.tongue || adjustHex(cw.upper || prefs.primary_color, -20),
+          toe: cw.toe || adjustHex(cw.upper || prefs.primary_color, 15),
+          accent: cw.accent || prefs.accent_color,
+          lace: cw.lace || '#FFFFFF',
+          midsole: cw.midsole || cw.sole || '#FAFAFA'
+        }));
+
+        state.currentConcept = {
+          id: Math.floor(1000 + Math.random() * 9000),
+          name: c.name || 'BESPOKE CONCEPT',
+          tagline: c.tagline || (prefs.inspiration ? `Infused with "${prefs.inspiration}".` : 'Procedural custom silhouette.'),
+          style_tags: c.style_tags || [prefs.style.toUpperCase(), prefs.material.toUpperCase(), prefs.occasion.toUpperCase()],
+          retail_price: c.retail_price || '$190 USD',
+          audience: c.target_audience || `${prefs.occasion.toUpperCase()} / UNISEX`,
+          description: c.description || 'Custom designed procedural silhouette.',
+          materials: c.materials || [prefs.material],
+          features: c.features || ['Ergonomic footbed', 'Custom traction pattern'],
+          sole: c.sole_type || c.sole || 'Segmented EVA foam unit',
+          colorways: colorways.length > 0 ? colorways : [
+            { name: 'Signature', upper: prefs.primary_color, panel: adjustHex(prefs.primary_color, -20), toe: adjustHex(prefs.primary_color, 15), accent: prefs.accent_color, lace: '#FFFFFF', midsole: '#FAFAFA' }
+          ],
+                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+
+        document.getElementById('resultName').textContent = state.currentConcept.name;
+        document.getElementById('resultTagline').textContent = state.currentConcept.tagline;
+        document.getElementById('resultTags').textContent = state.currentConcept.style_tags.join(' · ');
+        document.getElementById('resultPrice').textContent = state.currentConcept.retail_price;
+        document.getElementById('resultAudience').textContent = state.currentConcept.audience;
+        document.getElementById('resultDesc').textContent = state.currentConcept.description;
+
+        const matList = document.getElementById('materialsList');
+        matList.innerHTML = state.currentConcept.materials.map(m => `<li>${m}</li>`).join('');
+
+        const featList = document.getElementById('featuresList');
+        featList.innerHTML = state.currentConcept.features.map(f => `<li>${f}</li>`).join('');
+
+        document.getElementById('soleText').textContent = state.currentConcept.sole;
+
+
+
+        renderColorwayControls();
+        applyColorway(0);
+
+        loadingState.classList.add('hidden');
+        resultArea.classList.remove('hidden');
+      } catch (err) {
+        loadingState.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        alert('Generation Notice: ' + err.message);
+      } finally {
+        if (btn) btn.disabled = false;
+        if (typeof hcaptcha !== 'undefined') {
+          try { hcaptcha.reset(); } catch (e) {}
+        }
+      }
+    }
+
+    function renderColorwayControls() {
+      const container = document.getElementById('colorwayTabs');
+      container.innerHTML = state.currentConcept.colorways.map((cw, idx) => `
+        <button class="cw-tab ${idx === 0 ? 'active' : ''}" onclick="applyColorway(${idx})">
+          <span class="cw-swatch" style="background:${cw.upper}"></span>
+          ${cw.name}
+        </button>
+      `).join("");
+    }
+
+    function applyColorway(idx) {
+      state.activeColorwayIndex = idx;
+      const tabs = document.querySelectorAll('#colorwayTabs .cw-tab');
+      tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+
+      const cw = state.currentConcept.colorways[idx];
+      const stage = document.getElementById('studioSneakerStage');
+
+      stage.style.setProperty('--upper-color', cw.upper);
+      stage.style.setProperty('--panel-color', cw.panel);
+      stage.style.setProperty('--toe-color', cw.toe);
+      stage.style.setProperty('--accent-color', cw.accent);
+      stage.style.setProperty('--lace-color', cw.lace);
+      stage.style.setProperty('--midsole-color', cw.midsole);
+
+      const infoContainer = document.getElementById('colorwayInfo');
+      infoContainer.innerHTML = `
+        <div class="cw-color-item"><span class="cw-dot" style="background:${cw.upper}"></span> Upper: ${cw.upper}</div>
+        <div class="cw-color-item"><span class="cw-dot" style="background:${cw.panel}"></span> Panel: ${cw.panel}</div>
+        <div class="cw-color-item"><span class="cw-dot" style="background:${cw.accent}"></span> Accent: ${cw.accent}</div>
+        <div class="cw-color-item"><span class="cw-dot" style="background:${cw.midsole}"></span> Midsole: ${cw.midsole}</div>
+      `;
+    }
+
+    function saveToArchive() {
+      if (!state.currentConcept) return;
+      const exists = state.history.find(c => c.id === state.currentConcept.id);
+      if (!exists) {
+        state.history.unshift(JSON.parse(JSON.stringify(state.currentConcept)));
+        alert("Concept saved to local session archive.");
+      } else {
+        alert("Concept already in session history.");
+      }
+    }
+
+    function clearHistory() {
+      if (!confirm("Are you sure you want to clear your local design archive?")) return;
+      state.history = [];
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const container = document.getElementById('historyContainer');
+      if (state.history.length === 0) {
+        container.innerHTML = `
+          <div class="history-empty">
+            <div class="empty-icon-lg">👟</div>
+            <h3>No Saved Concepts</h3>
+            <p>Generated sneaker mockups saved during your session will appear here.</p>
+            <button class="btn-primary" onclick="navigate('studio')">Open Studio →</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="history-grid">
+          ${state.history.map(item => {
+            const cw = item.colorways[0];
+            return `
+              <article class="history-card">
+                <div class="card-visual" style="
+                  --upper-color: ${cw.upper};
+                  --panel-color: ${cw.panel};
+                  --toe-color: ${cw.toe};
+                  --accent-color: ${cw.accent};
+                  --lace-color: ${cw.lace};
+                  --midsole-color: ${cw.midsole};
+                ">
+                  <svg class="sneaker-svg" viewBox="0 0 512 512">
+                    <path fill="var(--upper-color)" d="M26.484,324.045c-15.172,0-27.244-12.723-26.446-27.874L7.788,172.87c0.585-9.302,8.3-16.547,17.62-16.547h9.902c4.875,0,8.828,3.953,8.828,8.828v4.93c0,7.599,4.863,14.346,12.072,16.749l51.849,17.283c9.516,3.172,20.008,0.695,27.101-6.398l46.122-46.122c7.766-7.766,19.463-9.957,29.486-5.472c45.657,20.434,173.159,76.683,221.784,89.649c14.649,3.906,28.327,6.193,40.063,7.502c22.415,2.503,39.385,21.31,39.385,43.864v19.253l-52.965,35.31L35.31,324.045H26.484z"/>
+                    <polygon fill="var(--lace-color)" points="350.833,228.045 237.213,296.112 186.689,286.711 288.301,225.838"/>
+                    <polygon fill="var(--accent-color)" points="231.772,216.459 130.16,277.332 186.689,286.711 288.301,225.838"/>
+                    <path fill="var(--panel-color)" d="M143.422,275.96l78.51-47.492c5.519-3.307,12.053-4.514,18.385-3.361c30.355,5.528,121.847,22.537,153.681-2.143c-58.997-21.772-146.93-60.597-183.232-76.843c-10.024-4.487-21.72-2.294-29.486,5.471l-46.122,46.122c-7.093,7.093-17.585,9.569-27.101,6.398l-51.849-17.283c-7.21-2.403-12.072-9.15-12.072-16.749v-4.93c0-4.875-3.953-8.828-8.828-8.828h-9.902c-9.321,0-17.035,7.245-17.621,16.547L1.307,275.96H143.422z"/>
+                    <path fill="var(--toe-color)" d="M68.49,325.428l293.442,12.226v-37.657c-130.587-10.045-291.31-40.181-291.31-40.181L68.49,325.428z"/>
+                    <path fill="var(--panel-color)" d="M495.351,252.699c-20.077,7.486-60.371,20.168-116.299,26.336c-5.366,0.591-10.483,2.764-14.567,6.297l-55.521,47.54l150.069,8.828l52.965-35.31v-19.254C512,273.247,505.531,260.813,495.351,252.699z"/>
+                    <g fill="var(--accent-color)">
+                      <path d="M217.104,179.218c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.31-3.591,8.905-3.815,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C221.862,178.261,219.483,179.218,217.104,179.218z"/>
+                      <path d="M247.879,191.967c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.302-3.591,8.914-3.815,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C252.638,191.01,250.259,191.967,247.879,191.967z"/>
+                      <path d="M278.655,204.717c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.319-3.591,8.914-3.81,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C283.413,203.761,281.034,204.717,278.655,204.717z"/>
+                      <path d="M309.423,217.472c-2.138,0-4.285-0.771-5.974-2.332c-3.595-3.302-3.819-8.884-0.526-12.474l12.69-13.793c3.31-3.586,8.905-3.806,12.474-0.518c3.595,3.302,3.819,8.884,0.526,12.474l-12.69,13.793C314.181,216.514,311.802,217.472,309.423,217.472z"/>
+                      <path d="M114.759,324.045l-29.946-53.903c-9.161-16.49-23.891-29.183-41.554-35.806L4.83,219.925L0.037,296.17c-0.798,15.151,11.273,27.875,26.446,27.875L114.759,324.045z"/>
+                    </g>
+                    <path fill="var(--midsole-color)" d="M335.449,332.873c-79.448,0-132.414-8.828-211.862-8.828l-113.304-5.517v40.827c0,4.875,3.953,8.828,8.828,8.828h289.855c86.721,0,155.693-17.749,177.857-24.185c4.748-1.379,8.698-4.65,10.91-9.073L512,306.391C512,306.39,432.552,332.873,335.449,332.873z"/>
+                  </svg>
+                </div>
+                <div class="card-body">
+                  <div class="card-meta">
+                    <span class="card-id">#${item.id}</span>
+                    <span class="card-time">${item.timestamp}</span>
+                  </div>
+                  <h3 class="card-name">${item.name}</h3>
+                  <p class="card-tagline">${item.tagline}</p>
+                  <div class="card-tags">
+                    ${item.style_tags.map(t => `<span class="tag">${t}</span>`).join("")}
+                    <span class="tag tag--price">${item.retail_price}</span>
+                  </div>
+                  <div class="card-colorways">
+                    ${item.colorways.map(c => `
+                      <div class="swatch-group" title="${c.name}">
+                        <div class="swatch" style="background:${c.upper}"></div>
+                        <div class="swatch" style="background:${c.accent}"></div>
+                        <div class="swatch" style="background:${c.midsole}"></div>
+                      </div>
+                    `).join("")}
+                  </div>
+                </div>
+              </article>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      state.history.push({
+        id: 4892,
+        name: "VORTEX ZERO / STREETWEAR",
+        tagline: "Constructed with ripstop and industrial polymer strapping.",
+        style_tags: ["STREETWEAR", "LEATHER", "EVERYDAY"],
+        retail_price: "$220 USD",
+        audience: "EVERYDAY / UNISEX",
+        description: "Street-oriented chassis with responsive rebound support.",
+        materials: ["Full-grain leather", "Rubberized bumper guards"],
+        features: ["Anatomical footbed", "Abrasion-resistant treads"],
+        sole: "Segmented compound EVA.",
+        colorways: [
+          { name: "Core", upper: "#00C3FF", panel: "#0096DC", toe: "#00AAF0", accent: "#EBC9A0", lace: "#FAEBC8", midsole: "#FAEBC8" },
+          { name: "Void", upper: "#151515", panel: "#202020", toe: "#111111", accent: "#00C3FF", lace: "#ffffff", midsole: "#282828" }
+        ],
+        timestamp: "12:40 PM"
+      });
+    });
+  </script>
+</body>
+</html>

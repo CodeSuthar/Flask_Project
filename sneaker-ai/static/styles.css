@@ -1,0 +1,387 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.2);
+}
+
+h1, h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #4facfe;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #1e88e5;
+}
+
+.result {
+    margin-top: 25px;
+}
+
+.error {
+    margin-top: 20px;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+#map {
+    margin-top: 15px;
+    height: 300px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.btn {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    padding: 12px;
+    background: #4facfe;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.btn:hover {
+    background: #1e88e5;
+}
+
+/* =========================
+   AUTH PAGE EXTENSIONS
+========================= */
+
+.auth-card {
+    position: relative;
+    overflow: hidden;
+    animation: cardEnter .6s ease;
+}
+
+.auth-card::before {
+    content: "";
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    background: #4facfe;
+    opacity: .08;
+    border-radius: 50%;
+    top: -70px;
+    right: -50px;
+}
+
+.brand-icon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 18px;
+
+    background: linear-gradient(
+        135deg,
+        #4facfe,
+        #00c6ff
+    );
+
+    color: white;
+    font-size: 30px;
+
+    box-shadow: 0 10px 25px rgba(33,150,243,.3);
+}
+
+.auth-card h1 {
+    font-size: 32px;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 5px 0 15px;
+
+    font-size: 14px;
+}
+
+.form-options a,
+.switch-page a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form-options a:hover,
+.switch-page a:hover {
+    text-decoration: underline;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin: 0;
+
+    font-weight: normal;
+    color: #555;
+}
+
+.remember input,
+.terms input {
+    width: auto;
+    accent-color: #2196F3;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin: 25px 0;
+
+    color: #aaa;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e5e5e5;
+}
+
+.secondary-btn {
+    margin-top: 0;
+
+    background: white;
+    color: #333;
+
+    border: 2px solid #e5e5e5;
+
+    transition: .3s;
+}
+
+.secondary-btn:hover {
+    background: #f7fbff;
+    border-color: #2196F3;
+    color: #0d6efd;
+}
+
+.switch-page {
+    text-align: center;
+    margin-top: 25px;
+    color: #666;
+    font-size: 14px;
+}
+
+.terms {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 5px 0 10px;
+
+    color: #666;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.terms input {
+    flex-shrink: 0;
+}
+
+
+/* =========================
+   WELCOME PAGE
+========================= */
+
+.welcome-card {
+    text-align: center;
+    animation: cardEnter .6s ease;
+}
+
+.welcome-icon {
+    width: 90px;
+    height: 90px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #4facfe,
+        #00f2fe
+    );
+
+    font-size: 45px;
+
+    box-shadow: 0 15px 35px rgba(33,150,243,.3);
+
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+.welcome-label {
+    color: #2196F3;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+
+    margin-bottom: 8px;
+}
+
+.welcome-card h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.welcome-card .subtitle {
+    line-height: 1.6;
+}
+
+.logout-btn {
+    margin-top: 12px;
+
+    background: transparent;
+    color: #777;
+
+    border: 2px solid #ddd;
+}
+
+.logout-btn:hover {
+    background: #f5f5f5;
+    color: #333;
+    border-color: #bbb;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes cardEnter {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+@keyframes floatIcon {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+
+}
+
+
+/* =========================
+   BETTER INPUT EFFECT
+========================= */
+
+input:hover {
+    border-color: #b8dfff;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+
+    .auth-card,
+    .welcome-card {
+        padding: 25px 20px;
+    }
+
+    .auth-card h1,
+    .welcome-card h1 {
+        font-size: 27px;
+    }
+
+    .form-options {
+        font-size: 12px;
+    }
+
+}
